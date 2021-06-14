@@ -3,7 +3,7 @@ service:
   - docker
 
 before_install:
-  - docker build -t slewa/react-test -f ./client/Dockerfile.dev
+  - docker build -t slewa/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true slewa/react-test nmp test
