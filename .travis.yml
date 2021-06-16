@@ -13,10 +13,22 @@ after_success:
   - docker build -t slewa/multi-nginx ./nginx
   - docker build -t slewa/multi-server ./server
   - docker build -t slewa/multi-worker ./worker
+
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  
   - docker push slewa/multi-client
   - docker push slewa/multi-nginx
   - docker push slewa/multi-server
   - docker push slewa/multi-worker
 
-
+deploy: 
+  provider: elasticbeanstalk
+  region: 'us-east-1'
+  app: 'multi-docker'
+  env: 'Multidocker2-env'
+  bucket_name: '?',
+  bucket_path: 'docker-multi'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
